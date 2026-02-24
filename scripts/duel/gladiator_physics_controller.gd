@@ -320,9 +320,9 @@ var cmd_backward01: float = 0.0
 # (REMOVED) Phase 2 legacy auto-stepper exports deleted (planner/executor stepping replaces this).
 
 # Swing foot PD (omega/zeta form, force-clamped by (m*g)*mult)
-@export var phase2_swing_freq_hz: float = 7.0
-@export var phase2_swing_zeta: float = 1.0
-@export var phase2_swing_force_mult: float = 2.2
+@export var phase2_swing_freq_hz: float = 4.5
+@export var phase2_swing_zeta: float = 1.2
+@export var phase2_swing_force_mult: float = 1.8
 
 # Pelvis horizontal support (omega/zeta form, force-clamped by (total_mass*g)*mult)
 @export var phase2_pelvis_x_freq_hz: float = 4.0
@@ -586,9 +586,9 @@ var cmd_backward01: float = 0.0
 ## Smooth contact normal for flatness (0=full smooth, 1=no smooth). Reduces foot jitter from flickering normals.
 @export var foot_flat_normal_smooth_alpha: float = 0.35
 ## Swing-foot attitude: PD gains and cap when foot is in air during Phase 7 step (flat target from last plant).
-@export var swing_foot_flat_k: float = 8000.0
-@export var swing_foot_flat_d: float = 400.0
-@export var swing_foot_flat_tau_max: float = 12000.0
+@export var swing_foot_flat_k: float = 18000.0
+@export var swing_foot_flat_d: float = 1200.0
+@export var swing_foot_flat_tau_max: float = 25000.0
 @export var swing_foot_flat_strength: float = 1.0
 @export var plant_drift_vx_max: float = 35.0
 @export var plant_drift_accel_gain: float = 35.0
