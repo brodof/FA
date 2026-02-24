@@ -64,13 +64,17 @@ func _foot_stability(sensor: Node) -> float:
 		return clampf(float(s), 0.0, 1.0)
 	return 0.0
 
-# --- Phase2 swing force (PD toward target_w, scaled by spawn01) ---
+# --- Phase2 swing force (PD toward target_w, applied to SHIN not foot) ---
+# The foot body should only receive attitude (ground-parallel) torque.
+# All swing translation force goes through the shin so the ankle joint
+# transmits motion naturally and the foot hangs without jitter.
 func apply_swing_force(is_front: bool, target_w: Vector2, _dt: float, spawn01: float) -> void:
+	var shin: RigidBody2D = _refs.rb_shin_front if is_front else _refs.rb_shin_rear
 	var foot: RigidBody2D = _refs.rb_foot_front if is_front else _refs.rb_foot_rear
-	if foot == null or spawn01 <= 0.0:
+	if shin == null or foot == null or spawn01 <= 0.0:
 		return
 
-	var m := maxf(0.001, foot.mass)
+	var m := maxf(0.001, shin.mass + foot.mass)
 	var freq: float = _owner.get("phase2_swing_freq_hz") as float
 	var zeta: float = _owner.get("phase2_swing_zeta") as float
 	var mult: float = _owner.get("phase2_swing_force_mult") as float
@@ -86,7 +90,7 @@ func apply_swing_force(is_front: bool, target_w: Vector2, _dt: float, spawn01: f
 	var d := 2.0 * m * w * maxf(0.0, zeta)
 
 	var err := target_w - foot.global_position
-	var vel := foot.linear_velocity
+	var vel := shin.linear_velocity
 
 	var F := (k * err) - (d * vel)
 
@@ -94,4 +98,4 @@ func apply_swing_force(is_front: bool, target_w: Vector2, _dt: float, spawn01: f
 	F.x = clampf(F.x, -Fmax, Fmax)
 	F.y = clampf(F.y, -Fmax, Fmax)
 
-	foot.apply_central_force(F * spawn01)
+	shin.apply_central_force(F * spawn01)

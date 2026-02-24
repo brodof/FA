@@ -231,10 +231,10 @@ func tick_shadow(
 
 	var step_done_pos_eps: float = maxf(2.0, float(o.get("phase7_step_done_pos_eps")))
 	var slot_sep_now: float = absf(front_slot_x - rear_slot_x) if is_finite(front_slot_x) and is_finite(rear_slot_x) else maxf(0.0, float(o.get("phase7_min_foot_separation_px")))
-	var correction_eps: float = maxf(step_done_pos_eps * 1.5, 5.0)
-	# Brief H: correction thresholds must scale with authored slot separation so crouch/tall
-	# transitions do not change planner behavior qualitatively.
-	correction_eps = maxf(correction_eps, clampf(slot_sep_now * 0.22, 4.0, 32.0))
+	var correction_eps: float = maxf(step_done_pos_eps, 3.0)
+	# Stance enforcement: threshold scales with slot separation so crouch/tall behaves
+	# consistently, but keep it tight so idle feet reliably land into authored slots.
+	correction_eps = maxf(correction_eps, clampf(slot_sep_now * 0.12, 2.0, 18.0))
 
 	var front_err: float = absf(fx - front_slot_x) if is_finite(fx) and is_finite(front_slot_x) else 0.0
 	var rear_err: float = absf(rx - rear_slot_x) if is_finite(rx) and is_finite(rear_slot_x) else 0.0
@@ -245,8 +245,8 @@ func tick_shadow(
 	#
 	# Keep correction_step_arm_eps for other heuristics (fracture/stall), but idle no-input correction
 	# now arms on the base correction threshold.
-	var correction_step_arm_eps: float = maxf(correction_eps * 1.8, correction_eps + 8.0)
-	correction_step_arm_eps = maxf(correction_step_arm_eps, clampf(slot_sep_now * 0.45, 8.0, 72.0))
+	var correction_step_arm_eps: float = maxf(correction_eps * 1.4, correction_eps + 4.0)
+	correction_step_arm_eps = maxf(correction_step_arm_eps, clampf(slot_sep_now * 0.25, 4.0, 36.0))
 
 	var idle_any_correction_needed: bool = grounded_eff and (dir_world == 0) and (max_slot_err > correction_eps)
 	var idle_step_correction_needed: bool = idle_any_correction_needed
@@ -422,10 +422,14 @@ func tick_shadow(
 
 		if timed_out:
 			if _sh_seq_landed_contact:
-				# Brief M+: touchdown-underperform is not a hard recover event.
-				# Salvage progression:
-				# - PRIMARY timeout after touchdown -> continue to CORRECTIVE
-				# - CORRECTIVE timeout after touchdown -> finish/advance and let residual re-arm next frame
+				# Touchdown-underperform: foot touched down but didn't reach target.
+				# Always advance/finish so the stop sequence can still slot feet
+				# into stance width. Never stall in a timed-out stage.
+				_advance_or_finish_sequence(dir_world, hold_mode_now)
+			elif close_enough and swing_g:
+				# Foot arrived at target and is grounded but stability hasn't met
+				# the latch threshold yet. Treat as a soft landing and advance.
+				_sh_seq_landed_contact = true
 				_advance_or_finish_sequence(dir_world, hold_mode_now)
 			else:
 				# True swing failure = no touchdown by timeout.
@@ -737,11 +741,13 @@ func _compute_stage_target_x(
 
 	var primary_px: float = under_body_px
 	if hold_mode:
+		# Hold: feet cross the other, stride grows continuously with run ramp.
 		primary_px = maxf(under_body_px, stride_px)
 	else:
-		# Tap path: initiator under-body step grows with tap duration, but stays under-body biased.
-		var tap_extra_px: float = stride_px * 0.5 * tap01
-		primary_px = under_body_px + tap_extra_px
+		# Tap: trail under-body step whose length depends on tap duration.
+		# Short tap = small step under body. Longer tap = bigger step, still under-body biased.
+		var tap_scale: float = lerpf(0.3, 1.0, tap01)
+		primary_px = under_body_px * tap_scale
 
 	var target_x: float = cx + float(dir_world) * primary_px
 
@@ -759,15 +765,17 @@ func _compute_stage_target_x(
 
 
 func _pick_initiator_for_dir(dir_world: int) -> bool:
-	# Intended semantics:
-	# forward tap  -> trail moves first
-	# backward tap -> lead moves first
+	# forward tap:  trail under-body step (trail foot moves first)
+	# backward tap: lead under-body step (lead foot moves first)
 	var lead_is_front: bool = bool(_owner.get("_lead_is_front"))
-	if dir_world > 0:
+	var axis: float = float(_owner.get("_neutral_axis_sign"))
+	if absf(axis) < 0.5:
+		axis = 1.0
+	var is_forward: bool = (float(dir_world) * axis) > 0.0
+	if is_forward:
 		return not lead_is_front
-	if dir_world < 0:
+	else:
 		return lead_is_front
-	return bool(_owner.get("_step_swing_is_front"))
 
 
 func _compute_slot_targets_x() -> Vector2:

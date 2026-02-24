@@ -441,13 +441,15 @@ func _tick_stand_only_path(
 				if o._ground_truth_mod != null:
 					o._ground_truth_mod.apply_swing_force(false, o._plan_target_rear, dt, spawn01 * multR)
 
-			# Unweight the slide foot while it is SWING but still grounded, so friction doesn't lock it.
+			# Unweight the slide leg while SWING but still grounded. Force goes to shin, not foot.
 			if o.phase6_swing_unweight_mult > 0.0:
 				var uw: float = clampf(o.phase6_swing_unweight_mult, 0.0, 1.0)
-				if front_slide and o._rb_foot_front != null:
-					o._rb_foot_front.apply_central_force(Vector2(0.0, -o._rb_foot_front.mass * o._g * uw) * spawn01)
-				if rear_slide and o._rb_foot_rear != null:
-					o._rb_foot_rear.apply_central_force(Vector2(0.0, -o._rb_foot_rear.mass * o._g * uw) * spawn01)
+				if front_slide and o._rb_shin_front != null:
+					var uw_mass: float = o._rb_shin_front.mass + (o._rb_foot_front.mass if o._rb_foot_front != null else 0.0)
+					o._rb_shin_front.apply_central_force(Vector2(0.0, -uw_mass * o._g * uw) * spawn01)
+				if rear_slide and o._rb_shin_rear != null:
+					var uw_mass: float = o._rb_shin_rear.mass + (o._rb_foot_rear.mass if o._rb_foot_rear != null else 0.0)
+					o._rb_shin_rear.apply_central_force(Vector2(0.0, -uw_mass * o._g * uw) * spawn01)
 
 		else:
 			var recenter_ok: bool = (o._touchdown_ramp_t >= o.plant_touchdown_grace_sec) and (o._impact_timer <= 0.0)
@@ -1179,10 +1181,12 @@ func _tick_runtime_walk(
 
 				if o.phase6_swing_unweight_mult > 0.0:
 					var uw2: float = clampf(o.phase6_swing_unweight_mult, 0.0, 1.0)
-					if front_slide and o._rb_foot_front != null:
-						o._rb_foot_front.apply_central_force(Vector2(0.0, -o._rb_foot_front.mass * o._g * uw2) * spawn_gate)
-					if rear_slide and o._rb_foot_rear != null:
-						o._rb_foot_rear.apply_central_force(Vector2(0.0, -o._rb_foot_rear.mass * o._g * uw2) * spawn_gate)
+					if front_slide and o._rb_shin_front != null:
+						var uw_mass2f: float = o._rb_shin_front.mass + (o._rb_foot_front.mass if o._rb_foot_front != null else 0.0)
+						o._rb_shin_front.apply_central_force(Vector2(0.0, -uw_mass2f * o._g * uw2) * spawn_gate)
+					if rear_slide and o._rb_shin_rear != null:
+						var uw_mass2r: float = o._rb_shin_rear.mass + (o._rb_foot_rear.mass if o._rb_foot_rear != null else 0.0)
+						o._rb_shin_rear.apply_central_force(Vector2(0.0, -uw_mass2r * o._g * uw2) * spawn_gate)
 
 				o._phase7_exec_apply_forces(dt, spawn_gate, front_g, rear_g)
 	else:
