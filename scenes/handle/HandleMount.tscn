@@ -1,0 +1,67 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0xux2rmmdbvi"]
+
+[ext_resource type="Script" uid="uid://da45pvwka7ref" path="res://scripts/handle/handle_mount.gd" id="1_486fq"]
+[ext_resource type="Script" uid="uid://dt4ulbto1a8b4" path="res://scripts/forge/blade_view.gd" id="1_x40ey"]
+
+[node name="HandleMount" type="Node2D"]
+script = ExtResource("1_486fq")
+blade_view_path = NodePath("CenterPanel/BladeView")
+length_slider_path = NodePath("CenterPanel/RightPanel/LengthSlider")
+name_field_path = NodePath("CenterPanel/RightPanel/NameField")
+confirm_button_path = NodePath("CenterPanel/RightPanel/ConfirmButton")
+cancel_button_path = NodePath("CenterPanel/RightPanel/CancelButton")
+
+[node name="BG" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(1000, 1000)
+offset_left = -60.0
+offset_top = -28.0
+offset_right = 2019.0
+offset_bottom = 1112.0
+color = Color(0.2231029, 0.2231029, 0.22310287, 1)
+
+[node name="CenterPanel" type="Control" parent="."]
+custom_minimum_size = Vector2(800, 400)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 94.0
+offset_top = 60.0
+offset_right = 1843.0
+offset_bottom = 1031.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BladeView" type="Control" parent="CenterPanel"]
+anchors_preset = 0
+offset_left = -3.0
+offset_top = 26.0
+offset_right = 1220.0
+offset_bottom = 950.0
+script = ExtResource("1_x40ey")
+
+[node name="RightPanel" type="VBoxContainer" parent="CenterPanel"]
+layout_mode = 0
+offset_left = 1270.0
+offset_top = 32.0
+offset_right = 1745.0
+offset_bottom = 834.0
+
+[node name="TitleLabel" type="Label" parent="CenterPanel/RightPanel"]
+layout_mode = 2
+text = "Attach Handle"
+
+[node name="LengthSlider" type="HSlider" parent="CenterPanel/RightPanel"]
+layout_mode = 2
+
+[node name="NameField" type="LineEdit" parent="CenterPanel/RightPanel"]
+layout_mode = 2
+
+[node name="ConfirmButton" type="Button" parent="CenterPanel/RightPanel"]
+layout_mode = 2
+text = "Confirm
+"
+
+[node name="CancelButton" type="Button" parent="CenterPanel/RightPanel"]
+layout_mode = 2
+text = "Cancel"

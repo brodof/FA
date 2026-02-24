@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://itcbsanck82"]
+
+[ext_resource type="Script" uid="uid://yvsvjqh16ft1" path="res://scenes/weapons/weapon_root.gd" id="1_mjj2g"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_2axdc"]
+friction = 0.8
+bounce = 0.05
+
+[node name="WeaponRoot" type="RigidBody2D"]
+physics_material_override = SubResource("PhysicsMaterial_2axdc")
+continuous_cd = 2
+contact_monitor = true
+max_contacts_reported = 8
+angular_damp = 2.0
+script = ExtResource("1_mjj2g")
+linear_follow = null
+angular_follow = null
+max_position_correction = null
+max_rotation_correction = null
+shove_gain_one_hand = null
+shove_gain_two_hand = null
+shove_max = null
+
+[node name="BladeVisual" type="Polygon2D" parent="."]
+
+[node name="HandleVisual" type="Polygon2D" parent="."]

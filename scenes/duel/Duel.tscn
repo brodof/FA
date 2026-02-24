@@ -1,0 +1,86 @@
+[gd_scene load_steps=6 format=3 uid="uid://dx6njsn1c3hv2"]
+
+[ext_resource type="Script" uid="uid://d01x3ag5vf4u7" path="res://scripts/duel/duel_controller.gd" id="1_lpo6m"]
+[ext_resource type="Texture2D" uid="uid://wixirrp28076" path="res://art/ChatGPT Image Jan 3, 2026, 01_19_29 AM.png" id="3_4x7ry"]
+[ext_resource type="PackedScene" uid="uid://b6o6aoois4u5y" path="res://scenes/duel/Gladiator.tscn" id="3_6ycl1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u4lch"]
+size = Vector2(2012, 350.5)
+
+[sub_resource type="Environment" id="Environment_6ycl1"]
+background_mode = 3
+glow_enabled = true
+glow_normalized = true
+glow_intensity = 4.87
+glow_strength = 1.19
+glow_hdr_threshold = 0.43
+
+[node name="Duel" type="Node2D"]
+script = ExtResource("1_lpo6m")
+player1_path = NodePath("Gladiator")
+player2_path = NodePath("Gladiator2")
+
+[node name="sussy bg" type="Sprite2D" parent="."]
+light_mask = 4
+visibility_layer = 4
+position = Vector2(957, 469.50003)
+scale = Vector2(1.3098959, 1.2978517)
+texture = ExtResource("3_4x7ry")
+
+[node name="Ground" type="StaticBody2D" parent="."]
+collision_mask = 11
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+position = Vector2(934, 1015)
+shape = SubResource("RectangleShape2D_u4lch")
+debug_color = Color(9.62615e-07, 0.5445036, 0.6378255, 0.41960785)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="P1Health" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="P2Health" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Background" type="ColorRect" parent="."]
+visible = false
+custom_minimum_size = Vector2(2000, 1100)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -48.0
+offset_top = -5.0
+offset_right = 1952.0
+offset_bottom = 1095.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.57461727, 0.34099618, 0.39109057, 1)
+
+[node name="FloorLine" type="Line2D" parent="."]
+visible = false
+position = Vector2(-247, 636)
+points = PackedVector2Array(176, 148, 2149, 147)
+
+[node name="Gladiator" parent="." instance=ExtResource("3_6ycl1")]
+phase1b_stand_only = false
+landing_sink_allow_px = 8.0
+landing_sink_extra_px = 8.0
+landing_sink_vy_ref = 750.0
+knee_flex_sign = 1
+
+[node name="Gladiator2" parent="." instance=ExtResource("3_6ycl1")]
+is_player2 = true
+phase1b_stand_only = false
+landing_sink_allow_px = 8.0
+landing_sink_extra_px = 8.0
+landing_sink_vy_ref = 750.0
+knee_flex_sign = 1
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(965, 542)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_6ycl1")
