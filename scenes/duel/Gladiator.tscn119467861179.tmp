@@ -1,0 +1,548 @@
+[gd_scene load_steps=33 format=3 uid="uid://b6o6aoois4u5y"]
+
+[ext_resource type="Script" uid="uid://bsspsvebiriii" path="res://scripts/duel/foot_contact_sensor.gd" id="1_footcs"]
+[ext_resource type="Script" uid="uid://bnlb71uepejl7" path="res://scripts/duel/gladiator_physics_controller.gd" id="1_i7rlg"]
+[ext_resource type="Texture2D" uid="uid://b0wt6jk7pbrm" path="res://art/leg_rear_upper w 2.png" id="2_xaxkt"]
+[ext_resource type="Texture2D" uid="uid://de7lxdvpkvo8h" path="res://art/leg_rear_lower w 2.png" id="3_xaxkt"]
+[ext_resource type="Texture2D" uid="uid://bsl5dn3wnlcfe" path="res://art/arm_rear_upper w.png" id="4_qboj6"]
+[ext_resource type="Texture2D" uid="uid://bfk3bbf1431l6" path="res://art/arm_rear_lower w.png" id="5_8msmd"]
+[ext_resource type="Texture2D" uid="uid://djapy774brc6o" path="res://art/torso w.png" id="6_16eiv"]
+[ext_resource type="Texture2D" uid="uid://b5pkdb20wxp1s" path="res://art/head w.png" id="7_p7qhb"]
+[ext_resource type="Texture2D" uid="uid://dkn1w0g7y8u7q" path="res://art/arm_front_upper w.png" id="8_8mh15"]
+[ext_resource type="Script" uid="uid://dlowdgcl2qb8g" path="res://scripts/duel/weapon_binding.gd" id="8_j7xod"]
+[ext_resource type="Texture2D" uid="uid://b3jq7s1s1qxdb" path="res://art/arm_front_lower w.png" id="9_0tx7h"]
+[ext_resource type="Texture2D" uid="uid://den3rl4musoqh" path="res://art/leg_front_upper w 2.png" id="10_xaxkt"]
+[ext_resource type="Texture2D" uid="uid://4yhwc8btdiw4" path="res://art/leg_front_lower w 2.png" id="11_1vaxh"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_body_slide"]
+friction = 0.25
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xaxkt"]
+size = Vector2(17, 13)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1vaxh"]
+size = Vector2(22, 26)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qboj6"]
+radius = 9.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8msmd"]
+size = Vector2(20, 7)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_16eiv"]
+size = Vector2(19, 5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_p7qhb"]
+radius = 3.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8mh15"]
+size = Vector2(18, 7)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0tx7h"]
+size = Vector2(19, 5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o2mx0"]
+radius = 3.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hdlar"]
+radius = 5.0
+height = 20.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tbs6b"]
+radius = 4.0
+height = 22.0
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_feet_grip"]
+friction = 1.05
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qboj6"]
+size = Vector2(11.5, 6)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_foot_round"]
+radius = 3.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xaxkt"]
+radius = 5.0
+height = 20.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1vaxh"]
+radius = 4.0
+height = 22.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p7qhb"]
+size = Vector2(12, 6)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_foot_round2"]
+radius = 3.0
+
+[node name="Gladiator" type="CharacterBody2D"]
+script = ExtResource("1_i7rlg")
+
+[node name="PlantAnchors" type="Node2D" parent="."]
+
+[node name="PlantAnchorHeel_F" type="StaticBody2D" parent="PlantAnchors"]
+collision_layer = 0
+collision_mask = 0
+
+[node name="PlantAnchorToe_F" type="StaticBody2D" parent="PlantAnchors"]
+collision_layer = 0
+collision_mask = 0
+
+[node name="PlantAnchorHeel_R" type="StaticBody2D" parent="PlantAnchors"]
+collision_layer = 0
+collision_mask = 0
+
+[node name="PlantAnchorToe_R" type="StaticBody2D" parent="PlantAnchors"]
+collision_layer = 0
+collision_mask = 0
+
+[node name="PlantPins" type="Node2D" parent="."]
+
+[node name="PlantPinHeel_F" type="DampedSpringJoint2D" parent="PlantPins"]
+length = 0.0
+stiffness = 0.0
+damping = 0.0
+
+[node name="PlantPinToe_F" type="DampedSpringJoint2D" parent="PlantPins"]
+length = 0.0
+stiffness = 0.0
+damping = 0.0
+
+[node name="PlantPinHeel_R" type="DampedSpringJoint2D" parent="PlantPins"]
+length = 0.0
+stiffness = 0.0
+damping = 0.0
+
+[node name="PlantPinToe_R" type="DampedSpringJoint2D" parent="PlantPins"]
+length = 0.0
+stiffness = 0.0
+damping = 0.0
+
+[node name="BodyRoot" type="Node2D" parent="."]
+
+[node name="RearLeg" type="Node2D" parent="BodyRoot"]
+position = Vector2(4, 0)
+
+[node name="UpperRearLeg" type="Node2D" parent="BodyRoot/RearLeg"]
+
+[node name="UpperRearLegSprite" type="Sprite2D" parent="BodyRoot/RearLeg/UpperRearLeg"]
+position = Vector2(-1, 2)
+texture = ExtResource("2_xaxkt")
+offset = Vector2(1, 8)
+region_enabled = true
+region_rect = Rect2(60.772755, 61.9752, 13.296665, 26.34441)
+
+[node name="LowerRearLeg" type="Node2D" parent="BodyRoot/RearLeg"]
+position = Vector2(3, 17)
+
+[node name="LowerRearLegSprite" type="Sprite2D" parent="BodyRoot/RearLeg/LowerRearLeg"]
+position = Vector2(-2, 1)
+texture = ExtResource("3_xaxkt")
+offset = Vector2(1, 11)
+region_enabled = true
+region_rect = Rect2(64.53668, 79.07611, 9.763535, 26.99701)
+
+[node name="RearFoot" type="Node2D" parent="BodyRoot/RearLeg/LowerRearLeg"]
+position = Vector2(0, 18)
+
+[node name="ArmRear" type="Node2D" parent="BodyRoot"]
+position = Vector2(9, -25)
+
+[node name="UpperRear" type="Node2D" parent="BodyRoot/ArmRear"]
+
+[node name="UpperRearSprite" type="Sprite2D" parent="BodyRoot/ArmRear/UpperRear"]
+texture = ExtResource("4_qboj6")
+offset = Vector2(7, 1)
+region_enabled = true
+region_rect = Rect2(67.95424, 34.048054, 19.969482, 9.145691)
+
+[node name="LowerRear" type="Node2D" parent="BodyRoot/ArmRear"]
+position = Vector2(15, 2)
+
+[node name="LowerRearSprite" type="Sprite2D" parent="BodyRoot/ArmRear/LowerRear"]
+texture = ExtResource("5_8msmd")
+offset = Vector2(10, 0)
+region_enabled = true
+region_rect = Rect2(85.78785, 36.894497, 22.656105, 5.3519516)
+
+[node name="HandRear" type="Node2D" parent="BodyRoot/ArmRear/LowerRear"]
+position = Vector2(18, 0)
+
+[node name="Torso" type="Node2D" parent="BodyRoot"]
+
+[node name="TorsoSprite" type="Sprite2D" parent="BodyRoot/Torso"]
+texture = ExtResource("6_16eiv")
+offset = Vector2(0, -17)
+region_enabled = true
+region_rect = Rect2(50.79482, 27.87849, 23.535473, 37.055157)
+
+[node name="Head" type="Node2D" parent="BodyRoot"]
+position = Vector2(-1, -33)
+
+[node name="HeadSprite" type="Sprite2D" parent="BodyRoot/Head"]
+texture = ExtResource("7_p7qhb")
+offset = Vector2(0, -7)
+region_enabled = true
+region_rect = Rect2(55.974915, 17.896978, 13.295578, 13.92597)
+
+[node name="ArmFront" type="Node2D" parent="BodyRoot"]
+position = Vector2(-10, -25)
+
+[node name="UpperFront" type="Node2D" parent="BodyRoot/ArmFront"]
+
+[node name="UpperFrontSprite" type="Sprite2D" parent="BodyRoot/ArmFront/UpperFront"]
+rotation = 3.0595622
+texture = ExtResource("8_8mh15")
+offset = Vector2(7, 1)
+region_enabled = true
+region_rect = Rect2(48.08406, 35.160603, 19.624168, 9.014637)
+
+[node name="LowerFront" type="Node2D" parent="BodyRoot/ArmFront"]
+position = Vector2(16, 2)
+
+[node name="LowerFrontSprite" type="Sprite2D" parent="BodyRoot/ArmFront/LowerFront"]
+position = Vector2(-32, -2)
+rotation = 3.1503193
+texture = ExtResource("9_0tx7h")
+offset = Vector2(10, 0)
+region_enabled = true
+region_rect = Rect2(66.152405, 38.02465, 21.990974, 5.1596947)
+
+[node name="HandFront" type="Node2D" parent="BodyRoot/ArmFront/LowerFront"]
+position = Vector2(18, 0)
+
+[node name="FrontLeg" type="Node2D" parent="BodyRoot"]
+
+[node name="UpperFrontLeg" type="Node2D" parent="BodyRoot/FrontLeg"]
+
+[node name="UpperFrontLegSprite" type="Sprite2D" parent="BodyRoot/FrontLeg/UpperFrontLeg"]
+position = Vector2(-1, 4)
+texture = ExtResource("10_xaxkt")
+offset = Vector2(-1, 9)
+region_enabled = true
+region_rect = Rect2(45.63042, 58.10206, 12.619629, 26.132683)
+
+[node name="LowerFrontLeg" type="Node2D" parent="BodyRoot/FrontLeg"]
+position = Vector2(-5, 19)
+
+[node name="LowerFrontLegSprite" type="Sprite2D" parent="BodyRoot/FrontLeg/LowerFrontLeg"]
+position = Vector2(-1, 2)
+texture = ExtResource("11_1vaxh")
+offset = Vector2(1, 11)
+region_enabled = true
+region_rect = Rect2(53.776985, 79.08734, 9.4324, 26.985779)
+
+[node name="FrontFoot" type="Node2D" parent="BodyRoot/FrontLeg/LowerFrontLeg"]
+position = Vector2(0, 18)
+
+[node name="WeaponBinding" type="Node2D" parent="BodyRoot"]
+visible = false
+script = ExtResource("8_j7xod")
+
+[node name="BladeVisual" type="Polygon2D" parent="BodyRoot/WeaponBinding"]
+
+[node name="BladeCollisionRoot" type="Node2D" parent="BodyRoot/WeaponBinding"]
+
+[node name="Ragdoll" type="Node2D" parent="."]
+
+[node name="RB_Pelvis" type="RigidBody2D" parent="Ragdoll"]
+position = Vector2(1.5, -1.5)
+mass = 3.0
+physics_material_override = SubResource("PhysicsMaterial_body_slide")
+can_sleep = false
+continuous_cd = 2
+linear_damp = 2.0
+angular_damp = 4.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ragdoll/RB_Pelvis"]
+position = Vector2(-1.5, -0.5)
+shape = SubResource("RectangleShape2D_xaxkt")
+
+[node name="J_Hip_Front" type="PinJoint2D" parent="Ragdoll/RB_Pelvis"]
+position = Vector2(-5.5, 3)
+node_a = NodePath("..")
+node_b = NodePath("../../RB_Thigh_Front")
+bias = 0.35
+softness = 0.45
+
+[node name="J_Hip_Rear" type="PinJoint2D" parent="Ragdoll/RB_Pelvis"]
+position = Vector2(4.5, 3)
+node_a = NodePath("..")
+node_b = NodePath("../../RB_Thigh_Rear")
+bias = 0.35
+softness = 0.45
+
+[node name="RB_Torso" type="RigidBody2D" parent="Ragdoll"]
+position = Vector2(1, -19)
+mass = 3.0
+physics_material_override = SubResource("PhysicsMaterial_body_slide")
+can_sleep = false
+continuous_cd = 2
+linear_damp = 2.0
+angular_damp = 4.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ragdoll/RB_Torso"]
+shape = SubResource("RectangleShape2D_1vaxh")
+
+[node name="J_Neck" type="PinJoint2D" parent="Ragdoll/RB_Torso"]
+position = Vector2(-2, -12)
+node_a = NodePath("..")
+node_b = NodePath("../../RB_Head")
+bias = 0.25
+softness = 0.55
+
+[node name="J_Waist" type="PinJoint2D" parent="Ragdoll/RB_Torso"]
+position = Vector2(0, 12)
+node_a = NodePath("..")
+node_b = NodePath("../../RB_Pelvis")
+bias = 0.25
+softness = 0.55
+
+[node name="J_Shoulder_Front" type="PinJoint2D" parent="Ragdoll/RB_Torso"]
+position = Vector2(-11, -6)
+node_a = NodePath("..")
+node_b = NodePath("../../RB_UpperArm_Front")
+bias = 0.25
+softness = 0.55
+
+[node name="J_Shoulder_Rear" type="PinJoint2D" parent="Ragdoll/RB_Torso"]
+position = Vector2(8, -6)
+node_a = NodePath("..")
+node_b = NodePath("../../RB_UpperArm_Rear")
+bias = 0.25
+softness = 0.55
+
+[node name="RB_Head" type="RigidBody2D" parent="Ragdoll"]
+position = Vector2(0, -39)
+physics_material_override = SubResource("PhysicsMaterial_body_slide")
+can_sleep = false
+continuous_cd = 2
+linear_damp = 2.0
+angular_damp = 4.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ragdoll/RB_Head"]
+shape = SubResource("CircleShape2D_qboj6")
+
+[node name="RB_UpperArm_Front" type="RigidBody2D" parent="Ragdoll"]
+position = Vector2(-19, -26)
+mass = 0.5
+physics_material_override = SubResource("PhysicsMaterial_body_slide")
+can_sleep = false
+continuous_cd = 2
+linear_damp = 2.0
+angular_damp = 4.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ragdoll/RB_UpperArm_Front"]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_8msmd")
+
+[node name="J_Elbow_Front" type="PinJoint2D" parent="Ragdoll/RB_UpperArm_Front"]
+position = Vector2(-7, 1)
+node_a = NodePath("..")
+node_b = NodePath("../../RB_LowerArm_Front")
+bias = 0.25
+softness = 0.55
+
+[node name="RB_LowerArm_Front" type="RigidBody2D" parent="Ragdoll"]
+position = Vector2(-33.5, -23.5)
+mass = 0.35
+physics_material_override = SubResource("PhysicsMaterial_body_slide")
+can_sleep = false
+continuous_cd = 2
+linear_damp = 2.0
+angular_damp = 4.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ragdoll/RB_LowerArm_Front"]
+position = Vector2(-0.5, -1.5)
+shape = SubResource("RectangleShape2D_16eiv")
+
+[node name="J_Wrist_Front" type="PinJoint2D" parent="Ragdoll/RB_LowerArm_Front"]
+position = Vector2(-8.5, -1.5)
+node_a = NodePath("..")
+node_b = NodePath("../../RB_Hand_Front")
+bias = 0.25
+softness = 0.55
+
+[node name="RB_Hand_Front" type="RigidBody2D" parent="Ragdoll"]
+position = Vector2(-44, -25)
+mass = 0.2
+physics_material_override = SubResource("PhysicsMaterial_body_slide")
+can_sleep = false
+continuous_cd = 2
+linear_damp = 2.0
+angular_damp = 4.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ragdoll/RB_Hand_Front"]
+shape = SubResource("CircleShape2D_p7qhb")
+
+[node name="RB_UpperArm_Rear" type="RigidBody2D" parent="Ragdoll"]
+position = Vector2(18, -24)
+mass = 0.5
+physics_material_override = SubResource("PhysicsMaterial_body_slide")
+can_sleep = false
+continuous_cd = 2
+linear_damp = 2.0
+angular_damp = 4.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ragdoll/RB_UpperArm_Rear"]
+shape = SubResource("RectangleShape2D_8mh15")
+
+[node name="J_Elbow_Rear" type="PinJoint2D" parent="Ragdoll/RB_UpperArm_Rear"]
+position = Vector2(7, 1)
+node_a = NodePath("..")
+node_b = NodePath("../../RB_LowerArm_Rear")
+bias = 0.25
+softness = 0.55
+
+[node name="RB_LowerArm_Rear" type="RigidBody2D" parent="Ragdoll"]
+position = Vector2(34.5, -25)
+mass = 0.35
+physics_material_override = SubResource("PhysicsMaterial_body_slide")
+can_sleep = false
+continuous_cd = 2
+linear_damp = 2.0
+angular_damp = 4.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ragdoll/RB_LowerArm_Rear"]
+shape = SubResource("RectangleShape2D_0tx7h")
+
+[node name="J_Wrist_Rear" type="PinJoint2D" parent="Ragdoll/RB_LowerArm_Rear"]
+position = Vector2(5.5, 2)
+node_a = NodePath("..")
+node_b = NodePath("../../RB_Hand_Rear")
+bias = 0.25
+softness = 0.55
+
+[node name="RB_Hand_Rear" type="RigidBody2D" parent="Ragdoll"]
+position = Vector2(42, -23)
+mass = 0.2
+physics_material_override = SubResource("PhysicsMaterial_body_slide")
+can_sleep = false
+continuous_cd = 2
+linear_damp = 2.0
+angular_damp = 4.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ragdoll/RB_Hand_Rear"]
+shape = SubResource("CircleShape2D_o2mx0")
+
+[node name="RB_Thigh_Front" type="RigidBody2D" parent="Ragdoll"]
+position = Vector2(-4, 11)
+mass = 1.2
+physics_material_override = SubResource("PhysicsMaterial_body_slide")
+can_sleep = false
+continuous_cd = 2
+linear_damp = 2.0
+angular_damp = 4.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ragdoll/RB_Thigh_Front"]
+position = Vector2(0, -1)
+shape = SubResource("CapsuleShape2D_hdlar")
+
+[node name="J_Knee_Front" type="PinJoint2D" parent="Ragdoll/RB_Thigh_Front"]
+position = Vector2(0, 7)
+node_a = NodePath("..")
+node_b = NodePath("../../RB_Shin_Front")
+bias = 0.35
+softness = 0.45
+
+[node name="RB_Shin_Front" type="RigidBody2D" parent="Ragdoll"]
+position = Vector2(-7, 27)
+physics_material_override = SubResource("PhysicsMaterial_body_slide")
+can_sleep = false
+continuous_cd = 2
+linear_damp = 2.0
+angular_damp = 4.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ragdoll/RB_Shin_Front"]
+position = Vector2(2, 0)
+shape = SubResource("CapsuleShape2D_tbs6b")
+
+[node name="J_Ankle_Front" type="PinJoint2D" parent="Ragdoll/RB_Shin_Front"]
+position = Vector2(1.545, 10)
+node_a = NodePath("..")
+node_b = NodePath("../../RB_Foot_Front")
+bias = 0.35
+softness = 0.45
+
+[node name="RB_Foot_Front" type="RigidBody2D" parent="Ragdoll"]
+position = Vector2(-7, 40.5)
+mass = 0.3
+physics_material_override = SubResource("PhysicsMaterial_feet_grip")
+can_sleep = false
+continuous_cd = 2
+linear_damp = 2.0
+angular_damp = 4.0
+script = ExtResource("1_footcs")
+
+[node name="CS_FootMid" type="CollisionShape2D" parent="Ragdoll/RB_Foot_Front"]
+position = Vector2(1.75, -1.5)
+shape = SubResource("RectangleShape2D_qboj6")
+
+[node name="CS_FootHeel" type="CollisionShape2D" parent="Ragdoll/RB_Foot_Front"]
+position = Vector2(-3.25, -1.5)
+shape = SubResource("CircleShape2D_foot_round")
+
+[node name="CS_FootToe" type="CollisionShape2D" parent="Ragdoll/RB_Foot_Front"]
+position = Vector2(6.75, -1.5)
+shape = SubResource("CircleShape2D_foot_round")
+
+[node name="RB_Thigh_Rear" type="RigidBody2D" parent="Ragdoll"]
+position = Vector2(6, 10)
+mass = 1.2
+physics_material_override = SubResource("PhysicsMaterial_body_slide")
+can_sleep = false
+continuous_cd = 2
+linear_damp = 2.0
+angular_damp = 4.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ragdoll/RB_Thigh_Rear"]
+shape = SubResource("CapsuleShape2D_xaxkt")
+
+[node name="J_Knee_Rear" type="PinJoint2D" parent="Ragdoll/RB_Thigh_Rear"]
+position = Vector2(0, 8)
+node_a = NodePath("..")
+node_b = NodePath("../../RB_Shin_Rear")
+bias = 0.35
+softness = 0.45
+
+[node name="RB_Shin_Rear" type="RigidBody2D" parent="Ragdoll"]
+position = Vector2(6, 27)
+physics_material_override = SubResource("PhysicsMaterial_body_slide")
+can_sleep = false
+continuous_cd = 2
+linear_damp = 2.0
+angular_damp = 4.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ragdoll/RB_Shin_Rear"]
+shape = SubResource("CapsuleShape2D_1vaxh")
+
+[node name="J_Ankle_Rear" type="PinJoint2D" parent="Ragdoll/RB_Shin_Rear"]
+position = Vector2(0, 10)
+node_a = NodePath("..")
+node_b = NodePath("../../RB_Foot_Rear")
+bias = 0.35
+softness = 0.45
+
+[node name="RB_Foot_Rear" type="RigidBody2D" parent="Ragdoll"]
+position = Vector2(7, 39.4375)
+mass = 0.3
+physics_material_override = SubResource("PhysicsMaterial_feet_grip")
+can_sleep = false
+continuous_cd = 2
+contact_monitor = true
+max_contacts_reported = 8
+linear_damp = 2.0
+angular_damp = 4.0
+script = ExtResource("1_footcs")
+
+[node name="CS_FootMid" type="CollisionShape2D" parent="Ragdoll/RB_Foot_Rear"]
+position = Vector2(0, -0.4375)
+shape = SubResource("RectangleShape2D_p7qhb")
+
+[node name="CS_FootHeel" type="CollisionShape2D" parent="Ragdoll/RB_Foot_Rear"]
+position = Vector2(-5.25, -0.4375)
+shape = SubResource("CircleShape2D_foot_round2")
+
+[node name="CS_FootToe" type="CollisionShape2D" parent="Ragdoll/RB_Foot_Rear"]
+position = Vector2(5.25, -0.4375)
+shape = SubResource("CircleShape2D_foot_round2")

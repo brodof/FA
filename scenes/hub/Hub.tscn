@@ -1,0 +1,119 @@
+[gd_scene load_steps=11 format=3 uid="uid://dykxmimc0qanf"]
+
+[ext_resource type="Script" uid="uid://beklm0g4hvsa7" path="res://scripts/hub/hub.gd" id="1_er4vj"]
+[ext_resource type="Texture2D" uid="uid://dy1bgx8okr6xx" path="res://art/ChatGPT Image Jan 4, 2026, 03_30_45 AM.png" id="2_w7jgr"]
+[ext_resource type="Script" uid="uid://ceeomxcjdpckx" path="res://scripts/hub/slot_panel.gd" id="2_ynf1v"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3eo6u"]
+bg_color = Color(0, 0, 0, 0)
+corner_radius_top_left = 205
+corner_radius_top_right = 380
+corner_radius_bottom_right = 415
+corner_radius_bottom_left = 425
+shadow_color = Color(0, 0, 0, 0)
+shadow_size = 200
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3eo6u"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_le482"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_le482"]
+bg_color = Color(0.60038817, 0.60038817, 0.60038817, 0)
+shadow_color = Color(0, 0, 0, 0)
+shadow_size = 200
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mo1wo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_y54b8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mgqhn"]
+
+[node name="Hub" type="Node2D"]
+script = ExtResource("1_er4vj")
+inv_scroll_path = NodePath("Inventory")
+inv_list_path = NodePath("Inventory/List")
+slot_p1_path = NodePath("SlotP1")
+slot_p2_path = NodePath("SlotP2")
+start_button_path = NodePath("StartButton")
+forge_button_path = NodePath("ForgeButton")
+quick_start_button_path = NodePath("QuickStartButton")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(963, 512)
+scale = Vector2(1.2617189, 1.1779785)
+texture = ExtResource("2_w7jgr")
+
+[node name="Inventory" type="ScrollContainer" parent="."]
+custom_minimum_size = Vector2(100, 100)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 749.0
+offset_top = 86.0
+offset_right = 1172.0
+offset_bottom = 377.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="List" type="VBoxContainer" parent="Inventory"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ForgeButton" type="Button" parent="."]
+offset_left = 324.0
+offset_top = 635.0
+offset_right = 870.0
+offset_bottom = 864.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+theme_override_styles/normal = SubResource("StyleBoxFlat_3eo6u")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_3eo6u")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_le482")
+text = "Forge"
+expand_icon = true
+
+[node name="StartButton" type="Button" parent="."]
+offset_left = 1115.0
+offset_top = 667.0
+offset_right = 1532.0
+offset_bottom = 831.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_le482")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_mo1wo")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_y54b8")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_mgqhn")
+text = "Duel"
+expand_icon = true
+
+[node name="Details" type="Label" parent="."]
+visible = false
+offset_left = 837.0
+offset_top = 659.0
+offset_right = 1351.0
+offset_bottom = 818.0
+autowrap_mode = 2
+
+[node name="SlotP1" type="Panel" parent="."]
+offset_left = 360.0
+offset_top = 151.0
+offset_right = 568.0
+offset_bottom = 341.0
+script = ExtResource("2_ynf1v")
+
+[node name="SlotP2" type="Panel" parent="."]
+offset_left = 1310.0
+offset_top = 132.0
+offset_right = 1529.0
+offset_bottom = 350.0
+script = ExtResource("2_ynf1v")
+which = 2
+
+[node name="QuickStartButton" type="Button" parent="."]
+offset_left = 885.0
+offset_top = 680.0
+offset_right = 1043.0
+offset_bottom = 776.0
+text = "Quick Start"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]

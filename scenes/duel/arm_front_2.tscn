@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://dia5j0oc2mxp7"]
+
+[ext_resource type="Texture2D" uid="uid://d2iyrxtdcji56" path="res://art/arm_front_upper.png" id="1_io7x6"]
+[ext_resource type="Texture2D" uid="uid://bt0a18wwbo07f" path="res://art/arm_front_lower.png" id="2_23d63"]
+
+[node name="ArmFront2" type="Node2D"]
+
+[node name="UpperFront" type="Node2D" parent="."]
+
+[node name="UpperFrontSprite" type="Sprite2D" parent="UpperFront"]
+texture = ExtResource("1_io7x6")
+offset = Vector2(7, 1)
+region_enabled = true
+region_rect = Rect2(48.08406, 35.160603, 19.624168, 9.014637)
+
+[node name="LowerFront" type="Node2D" parent="."]
+position = Vector2(16, 2)
+
+[node name="LowerFrontSprite" type="Sprite2D" parent="LowerFront"]
+texture = ExtResource("2_23d63")
+offset = Vector2(10, 0)
+region_enabled = true
+region_rect = Rect2(66.152405, 38.02465, 21.990974, 5.1596947)
+
+[node name="HandFront" type="Node2D" parent="LowerFront"]
+position = Vector2(18, 0)
